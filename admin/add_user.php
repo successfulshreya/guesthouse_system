@@ -1,10 +1,10 @@
 <?php
 session_start();
 if(!isset($_SESSION['user_id'])|| $_SESSION['role']!=='admin'){
-    header(Location:'../index.php');
+    header("Location:'../index.php'");
     exit();
 }
-include"../db_connect.php";
+include '../db_connect.php';
 
 $message='';
 if($_SERVER["REQUEST_METHOD"]==="POST"){
@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 
 // basic validation
 if(empty($name)|| empty($email)|| empty($plain)){
-    $message="please fill the requierd field.";
+    $message="please fill the required field.";
 }else{
     $hashed= password_hash($plain,PASSWORD_DEFAULT);
 
@@ -47,28 +47,28 @@ if(empty($name)|| empty($email)|| empty($plain)){
     <form method="POST">
         <div class="mb-3">
             <label>Name<label>
-            <input name="name" class="form-control" requierd>
+            <input name="name" class="form-control" required>
         </div>
          
         <div class="mb-3">
             <label>Email<label>
-            <input name="email" class="form-control" requierd>
+            <input name="email" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label>password<label>
-            <input name="password" type="text" class="form-control" requierd>
+            <input name="password" type="text" class="form-control" required>
         </div>
         
         <div class="mb-3">
             <label>department<label>
-            <input name="department" class="form-control" requierd>
+            <input name="department" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label>role<label>
             <select name="role" class="form-control">
-                <option value="user">User</option>\
+                <option value="user">User</option>
                 <option value="admin">Admin</option>
             </select>
         </div>

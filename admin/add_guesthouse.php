@@ -4,19 +4,23 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role']!=='admin'){
     header("Location:../index.php");
     exit();
 }
-include'../db_connect.php';
+include '../db_connect.php';
 
 $msg='';
+if(isset($_GET['success'])){
+    $msg="Guesthouse added successfully!!!!";
+}
 if($_SERVER['REQUEST_METHOD']==="POST"){
-    $name=trim($_POST['name']);
-    $address=trim($_POST['address']);
+    $name=trim($_POST['name' ]?? '');
+    $address=trim($_POST['address'] ?? '');
     if($name === '' || $address=== ''){
         $msg="fill all the field";
     }else{
-        $stmt=$conn->prepare("INSERT INTO guesthouses (name,address) VALUES(?,?)");
+        $stmt=$conn->prepare("INSERT INTO guesthouses(name,address) VALUES(?,?)");
         $stmt->bind_param("ss", $name, $address);
         if($stmt->execute()){
-            $msg="Guesthouse added";
+            header("Location:add_guesthouse.php?success=1");
+            exit();
         }else{
             $msg="error:" . $stmt->error;
         }
@@ -29,37 +33,34 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
 <html>
     <head>
         <title>Add Guesthouse</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
-</head>
-<body class="container mb-4">
-<h2 class="card-title">Add guesthouse</h2>
-<p class="card-text">add new guesthouse name with address.</p>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
+    </head>
+    <body class="container mb-4">
+        <h2 class="card-title">Add guesthouse</h2>
+        <p class="card-text">add new guesthouse name with address.</p>
 
-<div class="card" style="width: 48rem; height:300px">
-  <div class="card-body">
+    <div class="card" style="width: 48rem; height:400px">
+          <div class="card-body">
+            <?php if($msg): ?>
+               <div class="alert alert-info"><?php echo htmlspecialchars($msg); ?></div>
+            <?php endif; ?>
 
-   <form method="POST">
+         <form method="POST">
+                <div class="mb-3">
+                  <label for="Name" class="form-label">Name</label>
+                  <input type="text" name=name class="form-control"aria-describedby="enter your name">
+                </div>
 
-    <div class="mb-3">
-      <label for="Name" class="form-label">Name</label>
-    <input type="text" class="form-control"aria-describedby="enter your name">
-    </div>
-
-    <div class="mb-3">
-        <label for="address" class="form-label">Address</label>
-    <input type="text" class="form-control" aria-describedby="address">
-    </div>
-<br>
-
-
-<button class="btn btn-primary">ADD Guesthouse</button>
-        <a href="dashboard.php" class="btn btn-secondary">back</a>
-</form>
-
-    
+                <div class="mb-3">
+                   <label for="address" class="form-label">Address</label>
+                   <input type="text"  name= address class="form-control" aria-describedby="address">
+                 </div>
+            <BR>
+                <button class="btn btn-primary">ADD Guesthouse</button>
+                <a href="dashboard.php" class="btn btn-secondary">back</a>
+        </form>
   </div>
-</div>
-
+    </div>
 </body>
 </html>

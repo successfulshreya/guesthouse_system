@@ -18,7 +18,7 @@ exit();
 </head>
 <body class="container mt-4">
 <h2>ADMIN DASHBOARD</h2>
-<P>WELCOME,ADMIN</P>
+<P style="color:lightseagreen;">WELCOME,ADMIN</P>
 <div class="list-group">
     <a href="add_user.php" class="list-group-item list-group-item-action">Add Employee(user)</a>
     <a href="add_guesthouse.php" class="list-group-item list-group-item-action">Add Guesthouse</a>
