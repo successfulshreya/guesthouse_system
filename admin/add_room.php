@@ -16,14 +16,14 @@ if(isset($_GET['success'])){
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // get inputs safely
     $guesthouse_id = intval($_POST['guesthouse_id'] ?? 0);
-    $room_no = trim($_POST['room_no'] ?? '');
+    $room_id = trim($_POST['room_id'] ?? '');
     $status = trim($_POST['status'] ?? '');
 
-    if ($guesthouse_id <= 0 || $room_no === '' || $status === '') {
+    if ($guesthouse_id <= 0 || $room_id === '' || $status === '') {
         $msg = "Please fill all the fields.";
     } else {
-        $stmt = $conn->prepare("INSERT INTO rooms (guesthouse_id, room_no, status) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $guesthouse_id, $room_no, $status);
+        $stmt = $conn->prepare("INSERT INTO rooms (guesthouse_id, room_id, status) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $guesthouse_id, $room_id, $status);
 
         if ($stmt->execute()) {
             // $msg = "Room added successfully.";
@@ -66,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         </div>
 
         <div class="mb-3">
-            <label for="room_no" class="form-label">Room Number</label>
-            <input type="text" name="room_no" id="room_no" class="form-control" required>
+            <label for="room_id" class="form-label">Room Number</label>
+            <input type="text" name="room_id" id="room_id" class="form-control" required>
         </div>
 
         <div class="mb-3">

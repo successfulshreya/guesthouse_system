@@ -33,9 +33,11 @@ CREATE TABLE `bookings` (
   `room_id` int(11) DEFAULT NULL,
   `checkin_date` date DEFAULT NULL,
   `checkout_date` date DEFAULT NULL,
-  `status` enum('pending','approved','rejected') DEFAULT 'pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN key (room_id) REFERENCES rooms(id) ON DELETE CASCADE);
+  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+changed!!!!!!
 -- --------------------------------------------------------
 
 --
@@ -65,7 +67,7 @@ INSERT INTO `guesthouses` (`id`, `name`, `address`) VALUES
 CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
   `guesthouse_id` int(11) DEFAULT NULL,
-  `room_no` varchar(50) NOT NULL,
+  `room_id` varchar(50) NOT NULL,
   `status` enum('available','booked') DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -73,7 +75,7 @@ CREATE TABLE `rooms` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `guesthouse_id`, `room_no`, `status`) VALUES
+INSERT INTO `rooms` (`id`, `guesthouse_id`, `room_id`, `status`) VALUES
 (1, 1, '101', 'available');
 
 -- --------------------------------------------------------

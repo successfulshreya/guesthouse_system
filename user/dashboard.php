@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 if(!isset($_SESSION['user_id'])|| 
 $_SESSION['role']!=='user'){
 header("Location:../index.php");
@@ -17,12 +16,12 @@ exit();
     </head>
     <body class="container mb-3">
         <h2>User DASHBOARD</h2>
-<P style="color:aqua;">WELCOME,User !</P>
-<div class="list-group">
-    <a href="my_booking.php" class="list-group-item list-group-item-action">My Booking</a>
-    <a href="book_room.php" class="list-group-item list-group-item-action">Book Room</a>
-    <a href="get_rooms.php" class="list-group-item list-group-item-action">Get Rooms</a>
-    <a href="../logout.php" class="list-group-item list-group-item-action">logout</a>
-</div>
-    </body>
+           <P style="color:aqua;">WELCOME,User !</P>
+        <div class="list-group">
+            <a href="my_booking.php" class="list-group-item list-group-item-action">My Booking</a>
+            <a href="book_room.php" class="list-group-item list-group-item-action">Book Room</a>
+            <!-- <a href="get_rooms.php" class="list-group-item list-group-item-action">Get Rooms</a> -->
+            <a href="../logout.php" class="list-group-item list-group-item-action">logout</a>
+        </div>
+</body>
 </html>
