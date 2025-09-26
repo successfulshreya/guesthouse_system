@@ -20,7 +20,7 @@ exit();
         <div class="list-group">
             <a href="my_booking.php" class="list-group-item list-group-item-action">My Booking</a>
             <a href="book_room.php" class="list-group-item list-group-item-action">Book Room</a>
-            <!-- <a href="get_rooms.php" class="list-group-item list-group-item-action">Get Rooms</a> -->
+            <a href="availability.php" class="list-group-item list-group-item-action">check avaible rooms</a>
             <a href="../logout.php" class="list-group-item list-group-item-action">logout</a>
         </div>
 </body>
