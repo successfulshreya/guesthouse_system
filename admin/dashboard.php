@@ -23,7 +23,7 @@ exit();
     <a href="add_user.php" class="list-group-item list-group-item-action">Add Employee(user)</a>
     <a href="add_guesthouse.php" class="list-group-item list-group-item-action">Add Guesthouse</a>
     <a href="add_room.php" class="list-group-item list-group-item-action">Add Room</a>
-    <a href="booking.php" class="list-group-item list-group-item-action">Manage  Booking</a>
+    <a href="manage_booking.php" class="list-group-item list-group-item-action">Manage  Booking</a>
     <a href="../logout.php" class="list-group-item list-group-item-action">logout</a>
 </div>
 </body>
