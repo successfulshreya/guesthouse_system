@@ -14,23 +14,64 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Cancel booking, if requested
-if (isset($_GET['cancel_id'])) {
-    $cancel_id = intval($_GET['cancel_id']);
-    $stmt = $conn->prepare("DELETE FROM bookings WHERE id = ?");
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
+// Approve / Reject / Cancel booking if requested
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $action = $_GET['action'];
+    $id = intval($_GET['id']);
+    $status = '';
+
+    if ($action === 'cancel') {
+        $status = 'cancelled';
+    } elseif ($action === 'approve') {
+        $status = 'approved';
+    } elseif ($action === 'reject') {
+        $status = 'rejected';
     }
-    $stmt->bind_param("i", $cancel_id);
-    $stmt->execute();
-    if ($stmt->error) {
-        die("Delete failed: " . $stmt->error);
+
+    if ($status) {
+        // fetch the room id for this booking (needed to update room availability)
+        $room_id = null;
+        $res = $conn->prepare("SELECT room_id FROM bookings WHERE id = ?");
+        $res->bind_param("i", $id);
+        $res->execute();
+        $res->bind_result($room_id);
+        $res->fetch();
+        $res->close();
+
+        // update booking status
+        $stmt = $conn->prepare("UPDATE bookings SET status = ? WHERE id = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+        $stmt->bind_param("si", $status, $id);
+        $stmt->execute();
+        if ($stmt->error) {
+            die("Update failed: " . $stmt->error);
+        }
+        $stmt->close();
+
+        // automatically update room status based on booking status
+        if ($room_id) {
+            if ($status === 'approved') {
+                // mark the room as booked
+                $up = $conn->prepare("UPDATE rooms SET status = 'booked' WHERE id = ?");
+                $up->bind_param("i", $room_id);
+                $up->execute();
+                $up->close();
+            } elseif ($status === 'cancelled' || $status === 'rejected') {
+                // mark the room as available
+                $up = $conn->prepare("UPDATE rooms SET status = 'available' WHERE id = ?");
+                $up->bind_param("i", $room_id);
+                $up->execute();
+                $up->close();
+            }
+        }
+
+        $msg = "Booking $status successfully";
     }
-    $stmt->close();
-    $msg = "Booking cancelled successfully";
 }
 
-// Fetch all bookings with correct table name and alias
+// Fetch all bookings including status
 $sql = "
     SELECT
         b.id,
@@ -38,7 +79,8 @@ $sql = "
         g.name AS guesthouse_name,
         r.room_id AS room_label,
         b.checkin_date,
-        b.checkout_date
+        b.checkout_date,
+        b.status
     FROM bookings b
     JOIN users u ON b.user_id = u.id
     JOIN rooms r ON b.room_id = r.id
@@ -73,6 +115,7 @@ if (!$result) {
                     <th>Room</th>
                     <th>CHECK-IN</th>
                     <th>CHECK-OUT</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -90,15 +133,28 @@ if (!$result) {
                             <td><?= htmlspecialchars($row['checkin_date']) ?></td>
                             <td><?= htmlspecialchars($row['checkout_date']) ?></td>
                             <td>
-                                <a href="?cancel_id=<?= $row['id'] ?>"
-                                   onclick="return confirm('Cancel this booking?')"
-                                   class="btn btn-danger btn-sm">Cancel</a>
+                                <span class="badge bg-info"><?= htmlspecialchars($row['status']) ?></span>
+                            </td>
+                            <td>
+                                <?php if ($row['status'] === 'pending') { ?>
+                                    <a href="?action=approve&id=<?= $row['id'] ?>" 
+                                       class="btn btn-success btn-sm"
+                                       onclick="return confirm('Approve this booking?')">Approve</a>
+                                    <a href="?action=reject&id=<?= $row['id'] ?>" 
+                                       class="btn btn-warning btn-sm"
+                                       onclick="return confirm('Reject this booking?')">Reject</a>
+                                <?php } ?>
+                                <?php if ($row['status'] !== 'cancelled') { ?>
+                                    <a href="?action=cancel&id=<?= $row['id'] ?>" 
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Cancel this booking?')">Cancel</a>
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php
                     }
                 } else {
-                    echo "<tr><td colspan='7' class='text-center'>NO Booking FOUND</td></tr>";
+                    echo "<tr><td colspan='8' class='text-center'>NO Booking FOUND</td></tr>";
                 }
                 ?>
             </tbody>
