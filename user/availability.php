@@ -43,14 +43,16 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
             <div class="col-md-3">
                 <label class="form-label">Check-in</label>
                 <input type="date" name="checkin" class="form-control"
-                       value="<?= isset($_GET['checkin']) ? htmlspecialchars($_GET['checkin']) : '' ?>" required>
+                       value="<?= isset($_GET['checkin']) ? htmlspecialchars($_GET['checkin']) : '' ?>"
+                       min="<?= date('Y-m-d') ?>" required>
             </div>
 
             <!-- Check-out date input -->
             <div class="col-md-3">
                 <label class="form-label">Check-out</label>
                 <input type="date" name="checkout" class="form-control"
-                       value="<?= isset($_GET['checkout']) ? htmlspecialchars($_GET['checkout']) : '' ?>" required>
+                       value="<?= isset($_GET['checkout']) ? htmlspecialchars($_GET['checkout']) : '' ?>"
+                       min="<?= date('Y-m-d') ?>" required>
             </div>
 
             <!-- Submit button -->
@@ -63,26 +65,24 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
 <?php
 // Only run this block if the form was submitted with all required fields
 if (isset($_GET['guesthouse_id'], $_GET['checkin'], $_GET['checkout'])) {
-    $guesthouse_id = intval($_GET['guesthouse_id']);  // convert guesthouse_id to integer for safety
+    $guesthouse_id = intval($_GET['guesthouse_id']);
     $checkin = $_GET['checkin'];
     $checkout = $_GET['checkout'];
+    $today = date('Y-m-d');
 
-    // Validate that checkin date is before checkout date
-    if ($checkin > $checkout) {
-        // If input is invalid (checkin is same day or after checkout), show error message
-        echo "<div class='alert alert-danger'>Check‑in date must be before check‑out date.</div>";
+    // Validate dates
+    if ($checkin < $today) {
+        echo "<div class='alert alert-danger'>Check-in date cannot be in the past.</div>";
+    } elseif ($checkout <= $checkin) {
+        echo "<div class='alert alert-danger'>Check-out date must be after check-in date.</div>";
     } else {
-        // Input is valid, so proceed
-
         // Prepare SQL to fetch all rooms in the selected guesthouse
         $rooms_stmt = $conn->prepare("SELECT id, room_id FROM rooms WHERE guesthouse_id = ?");
         $rooms_stmt->bind_param("i", $guesthouse_id);
         $rooms_stmt->execute();
         $rooms_result = $rooms_stmt->get_result();
 
-        // If rooms exist in that guesthouse
         if ($rooms_result->num_rows > 0) {
-            // Start table to show each room and availability
             echo "<table class='table table-bordered'>
                     <thead>
                         <tr>
@@ -93,38 +93,31 @@ if (isset($_GET['guesthouse_id'], $_GET['checkin'], $_GET['checkout'])) {
                     </thead>
                     <tbody>";
 
-            // Iterate through each room
             while ($room = $rooms_result->fetch_assoc()) {
                 $room_id = $room['id'];
 
-                // Prepare a query to check for any booking overlap
-                // If there is a booking whose checkin < requested checkout
-                // AND whose checkout > requested checkin, then there's overlap
+                // Check booking overlap
                 $book_stmt = $conn->prepare("
                     SELECT 1 FROM bookings
                     WHERE room_id = ?
                       AND checkin_date < ?
                       AND checkout_date > ?
                 ");
-                // Bind the parameters: room_id, requested checkout, requested checkin
                 $book_stmt->bind_param("iss", $room_id, $checkout, $checkin);
                 $book_stmt->execute();
-                $book_stmt->store_result();  // we don't need full row, just number of results
+                $book_stmt->store_result();
 
                 if ($book_stmt->num_rows > 0) {
-                    // If there is at least one overlapping booking, room is booked
                     echo "<tr>
                             <td>" . htmlspecialchars($room['room_id']) . "</td>
                             <td><span class='badge bg-danger'>Booked</span></td>
                             <td>-</td>
                           </tr>";
                 } else {
-                    // No overlapping booking — room is available
                     echo "<tr>
                             <td>" . htmlspecialchars($room['room_id']) . "</td>
                             <td><span class='badge bg-success'>Available</span></td>
                             <td>
-                                <!-- Form to proceed to booking this room -->
                                 <form method='POST' action='book_room.php' class='m-0'>
                                     <input type='hidden' name='guesthouse_id' value='$guesthouse_id'>
                                     <input type='hidden' name='room_id' value='$room_id'>
@@ -141,7 +134,6 @@ if (isset($_GET['guesthouse_id'], $_GET['checkin'], $_GET['checkout'])) {
 
             echo "</tbody></table>";
         } else {
-            // No rooms in that guesthouse
             echo "<div class='alert alert-info'>No rooms found for this guesthouse.</div>";
         }
     }
