@@ -69,6 +69,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <span class="fs-4">Admin
         </span>
     </a>
+    
     <hr>
     
     <ul class="nav nav-pills flex-column">
