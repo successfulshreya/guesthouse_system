@@ -63,7 +63,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 </head>
 <body>
   <!-- Sidebar -->
-  <nav class="sidebar d-flex flex-column p-3">
+    <nav class="sidebar d-flex flex-column p-3">
+      <div class="logo">
+        <a href="dashboard.php">
+        <img src="../sardalogo.jpg" style="width:200px; height:80px">
+        </a>
+      </div>
+
     <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
       <i class="bi bi-gear-fill fs-4"></i>
       <span class="fs-4">Admin
