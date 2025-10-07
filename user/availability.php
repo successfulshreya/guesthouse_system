@@ -15,17 +15,18 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
 <html>
 <head>
     <title>Check Availability</title>
+    <link rel="stylesheet" href="../style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        body { min-height: 100vh; display: flex; }
+        /* body { min-height: 100vh; display: flex; }
         .sidebar { width: 220px; background: #343a40; color: #fff; flex-shrink: 0; }
         .sidebar .nav-link { color: #ddd; }
         .sidebar .nav-link.active { background: #495057; color: #fff; }
         .sidebar .nav-link:hover { background: #495057; color: #fff; }
-        .sidebar .nav-link i { margin-right: 8px; }
-        .main-content { flex-grow: 1; padding: 20px; }
+        .sidebar .nav-link i { margin-right: 8px; } */
+        /* .main-content { flex-grow: 1; padding: 20px; } */
         .topbar { height: 60px; background: #f8f9fa; display: flex; align-items: center;
                   justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e0e0e0; }
         .card-action { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
@@ -35,18 +36,19 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
 <body>
 
 <!-- Sidebar -->
-<nav class="sidebar d-flex flex-column p-3">
-    <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-        <i class="bi bi-gear-fill fs-4"></i>
-        <span class="fs-4"><b>User</b></span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a href="Dashboard.php" class="nav-link"><i class="bi bi-building"></i> Dashboard</a>
+<nav class="sidebar d-flex flex-column">
+    <div class="sidebar-header">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+            <i class="bi bi-people fs-1"></i>
+            <span class="fs-4 ms-3">USER<br><h6 class="text-white-50">(Book Room)</h6></span>
+        </a>
+    </div>
+    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
+         <li class="nav-item">
+            <a href="dashboard.php" class="nav-link"><i class="bi bi-building"></i> Dashboard</a>
         </li>
         <li class="nav-item">
-            <a href="availability.php" class="nav-link active"><i class="bi bi-building"></i> Availability</a>
+            <a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a>
         </li>
         <li class="nav-item">
             <a href="my_booking.php" class="nav-link"><i class="bi bi-door-open"></i> My Bookings</a>
@@ -54,19 +56,19 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
         <li class="nav-item">
             <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
         </li>
-        <li class="nav-item mt-auto">
-            <a href="../logout.php" class="nav-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
-        </li>
     </ul>
+    <div class="p-3">
+        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
 </nav>
 
 <!-- Main content -->
 <div class="main-content">
     <div class="topbar">
-        <h5>Dashboard</h5>
-        <h4>SARDA ENERGY and MINERALS LTD</h4>
-        <div>
-            <span class="me-3">Welcome, User</span>
+        <h5 class="mb-0">Dashboard</h5>
+        <div class="d-flex align-items-center">
+            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+            <span>Welcome, User</span>
         </div>
     </div>
 
@@ -115,7 +117,7 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
 
             if ($checkin < $today) {
                 echo "<div class='alert alert-danger'>Check-in date cannot be in the past.</div>";
-            } elseif ($checkout <= $checkin) {
+            } elseif ($checkout < $checkin) {
                 echo "<div class='alert alert-danger'>Check-out date must be after check-in.</div>";
             } else {
                 // Fetch rooms in selected guesthouse

@@ -83,6 +83,7 @@ $result = $stmt->get_result();
 <html>
 <head>
     <title>My Bookings</title>
+    <link rel="stylesheet" href="../style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -136,40 +137,40 @@ $result = $stmt->get_result();
 <body>
 
   <!-- Sidebar -->
-  <nav class="sidebar d-flex flex-column p-3">
-    <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-      <i class="bi bi-gear-fill fs-4"></i>
-      <span class="fs-4">User Panel</span>
-    </a>
-    <hr>
-    
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a href="Dashboard.php" class="nav-link"><i class="bi bi-building"></i> Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a>
-      </li>
-      <li class="nav-item">
-        <a href="my_booking.php" class="nav-link"><i class="bi bi-door-open"></i>My Bookings</a>
-      </li>
-      <li class="nav-item">
-        <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
-      </li>
-      <li class="nav-item mt-auto">
-        <a href="../logout.php" class="nav-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
-      </li>
+ <nav class="sidebar d-flex flex-column">
+    <div class="sidebar-header">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+            <i class="bi bi-people fs-1"></i>
+            <span class="fs-4 ms-3">USER<br><h6 class="text-white-50">(Book Room)</h6></span>
+        </a>
+    </div>
+    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
+        <li class="nav-item">
+            <a href="dashboard.php" class="nav-link"><i class="bi bi-building"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a>
+        </li>
+        <li class="nav-item">
+            <a href="my_booking.php" class="nav-link"><i class="bi bi-door-open"></i> My Bookings</a>
+        </li>
+        <li class="nav-item">
+            <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
+        </li>
     </ul>
-  </nav>
+    <div class="p-3">
+        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+</nav>
 
   <!-- Main content area -->
   <div class="main-content">
     <div class="topbar">
-      <h5>Dashboard</h5>
-      <h4>SARDA ENERY and MINERALS LTD</h4>
-      <div>
-        <span class="me-3">Welcome, Admin</span>
-      </div>
+        <h5 class="mb-0">Dashboard</h5>
+        <div class="d-flex align-items-center">
+            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+            <span>Welcome, User</span>
+        </div>
     </div>
 
     <div class="container mb-3"><br>

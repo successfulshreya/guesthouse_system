@@ -123,6 +123,7 @@ if (!$result) {
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="styleadmin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -174,42 +175,45 @@ if (!$result) {
     </style>
 </head>
 <body>
-    <nav class="sidebar d-flex flex-column p-3">
-        <a href="#" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-            <i class="bi bi-gear-fill fs-4"></i>
-            <span class="fs-4">Admin</span>
+    <nav class="sidebar d-flex flex-column">
+    <div class="sidebar-header">
+        <a href="dashboard.php" class="text-decoration-none">
+            
         </a>
-        <hr>
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <a href="dashboard.php" class="nav-link active"><i class="bi bi-pc"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="add_user.php" class="nav-link "><i class="bi bi-person-fill"></i> Add Employee</a>
-            </li>
-            <li class="nav-item">
-                <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
-            </li>
-            <li class="nav-item">
-                <a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i> Add Room</a>
-            </li>
-            <li class="nav-item">
-                <a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i> Manage Booking</a>
-            </li>
-            <li class="nav-item mt-auto">
-                <a href="../logout.php" class="nav-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
-            </li>
-        </ul>
-    </nav>
-
+        <div class="d-flex align-items-center text-white text-decoration-none">
+            <i class="bi bi-person-fill-gear fs-1"></i>
+            <span class="fs-4 ms-3">ADMIN</span>
+        </div>
+    </div>
+    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
+        <li class="nav-item">
+            <a href="dashboard.php" class="nav-link">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add Employee</a>
+        </li>
+        <li class="nav-item">
+            <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
+        </li>
+        <li class="nav-item">
+            <a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i> Add Room</a>
+        </li>
+        <li class="nav-item">
+            <a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i> Manage Booking</a>
+        </li>
+    </ul>
+    <div class="p-3">
+        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+</nav>
     <div class="main-content">
         <div class="topbar">
-            <h5>Dashboard</h5>
-            <h4>SARDA ENERY and MINERALS LTD</h4>
-            <div>
-                <span class="me-3">Welcome, Admin</span>
-            </div>
+        <h5 class="mb-0">Dashboard</h5>
+        <div class="d-flex align-items-center">
+            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+            <span>Welcome, Admin</span>
         </div>
+    </div>
 
         <div class="container mt-4 list-group">
             <h2 class="container mt-4">Manage bookings of USERS</h2>
