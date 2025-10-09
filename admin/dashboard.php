@@ -110,7 +110,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <nav class="sidebar d-flex flex-column">
     <div class="sidebar-header">
         <a href="dashboard.php" class="text-decoration-none">
-            <img src="../sardalogo.jpg" style="width:180px; height:80px; padding-bottom:10px;">
+            <img src="../sardalogo.jpg" style="width:fix-content; height:80px; padding-bottom:10px;">
         </a>
         <div class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-person-fill-gear fs-1"></i>
@@ -141,7 +141,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <div class="topbar">
         <h5 class="mb-0">Dashboard</h5>
         <div class="d-flex align-items-center">
-            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+                 <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
             <span>Welcome, Admin</span>
         </div>
     </div>

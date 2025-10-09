@@ -39,10 +39,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             // insert booking with guest info and pending status
-            $stmt = $conn->prepare(
-                "INSERT INTO bookings (user_id, room_id, checkin_date, checkout_date, guest_name, guest_designation, status)
-                 VALUES (?, ?, ?, ?, ?, ?, 'pending')"
-            );
+            // $stmt_rate = $conn->prepare(
+            //     "INSERT INTO bookings (user_id, room_id, checkin_date, checkout_date, guest_name, guest_designation, status)
+            //      VALUES (?, ?, ?, ?, ?, ?, 'pending')"
+            // );
+              $stmt_rate = $conn->prepare("SELECT 
+              rate_per_day FROM rooms WHERE id=?");
+              $stmt_rate->bind_param("i",$room_id);
+              $stmt_rate->execute();
+              $res_rate = $stmt_rate->get_result();
+              $room = $res_rate->fetch_assoc();
+              $rate = $room['rate_per_day'];
+              $stmt_rate->
+
+
+                
+            ;
+
             $stmt->bind_param("iissss", $user_id, $room_id, $checkin_date, $checkout_date, $guest_name, $guest_designation);
 
             if ($stmt->execute()) {
@@ -161,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="topbar">
         <h5 class="mb-0">Dashboard</h5>
         <div class="d-flex align-items-center">
-            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+             <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
             <span>Welcome, User</span>
         </div>
     </div>
@@ -215,10 +228,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input type="date" name="checkout_date" id="checkout_date" class="form-control" required>
           </div>
 
+        <div class="mb-3">
+        <label>Rate per Day: Rs.<span id="rate">1200</span></label>
+        <label>Total Cost: Rs.<span id="total_cost">0</span></label>
+        </div>
+
           <button class="btn btn-primary">Book Room</button>
           <a href="dashboard.php" class="btn btn-secondary">Back</a>
       </form>
     </div>
   </div>
+
+  <script>
+    const roomSelect = document.getElementById('roomSelect');
+    const rateSpan = document.getElementById('rate');
+    const totalSpan = document.getElementById('total_cost');
+    const checkin = document.getElementById('checkin_date');
+    const checkout = document.getElementById('checkout_date');
+
+    function calcTotal() {
+    const rate = parseFloat(rateSpan.textContent);
+    const inDate = new Date(checkin.value);
+    const outDate = new Date(checkout.value);
+
+    // Get the difference in milliseconds, then convert to days
+    const diff = (outDate - inDate) / (1000 * 60 * 60 * 24);
+
+    // Update the total cost if the difference is a valid positive number
+    if (diff > 0) {
+        totalSpan.textContent = (diff * rate).toFixed(2);
+    } else {
+        totalSpan.textContent = '0';
+    }
+     }
+
+      checkin.addEventListener('change', calcTotal);
+      checkout.addEventListener('change', calcTotal);
+
+      roomSelect.addEventListener('change', function() {
+      const roomId = this.value;
+     
+     if(!roomId) {
+           rateSpan.textContent = '0';
+           totalSpan.textContent = '0';
+           return;
+     }
+     
+     fetch('get_room_rate.php?room_id=' + encodeURIComponent(roomId))
+           .then(res => res.text())
+           .then(rate => {
+                  rateSpan.textContent = rate;
+                  calcTotal();
+           })
+           .catch(error => {
+                  // Log the error to the console for debugging
+                  console.error('Failed to fetch room rate:', error);
+                  rateSpan.textContent = 'Error';
+                  totalSpan.textContent = 'Error';
+           });
+    });
+
+</script>
 </body>
 </html>

@@ -18,4 +18,4 @@ if (isset($_GET['guesthouse_id'])) {
    }
 
 ?>
-
+  

@@ -126,7 +126,7 @@ if(empty($name)|| empty($email)|| empty($plain)){
      <div class="topbar">
         <h5 class="mb-0">Dashboard</h5>
         <div class="d-flex align-items-center">
-            <h4 class="mb-0 me-3">SARDA ENERGY and MINERALS LTD</h4>
+        <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
             <span>Welcome, Admin</span>
         </div>
       </div>
