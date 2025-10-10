@@ -411,3 +411,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </body>
 </html>
+
+
+new availability
+ $guesthouse_id = 13; // optionally get from GET or session
+
+    $sql = "SELECT r.id, r.room_id,
+       IF(b.id IS NOT NULL,'booked','available') AS today_status
+       FROM rooms r
+       LEFT JOIN bookings b
+       ON r.id=b.room_id AND CURDATE() BETWEEN b.checkin_date AND b.checkout_date
+       WHERE r.guesthouse_id=?";
+        $stmt=$conn->prepare($sql);
+        $stmt->bind_param("i",$guesthouse_id);
+        $stmt->execute();
+        $result=$stmt->get_result();
+?>

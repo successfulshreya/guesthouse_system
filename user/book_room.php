@@ -50,13 +50,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $res_rate = $stmt_rate->get_result();
               $room = $res_rate->fetch_assoc();
               $rate = $room['rate_per_day'];
-              $stmt_rate->
+              $stmt_rate->close();
 
 
-                
-            ;
+             // calculate days
+             $days = (strtotime($checkout_date) - strtotime($checkin_date))/(60*60*24);
+             if($days<1) $days= 1;
 
-            $stmt->bind_param("iissss", $user_id, $room_id, $checkin_date, $checkout_date, $guest_name, $guest_designation);
+             $total_cost = $days * $rate;
+
+             // insert booking with totalcost
+            $stmt = $conn->prepare(
+                "INSERT INTO bookings (user_id, room_id, checkin_date, checkout_date,
+                 guest_name, guest_designation, status, total_cost)
+                 VALUES (?, ?, ?, ?, ?, ?, 'pending',?)"
+            );
+
+
+            $stmt->bind_param("iissssi", $user_id, $room_id, $checkin_date, $checkout_date, $guest_name,
+             $guest_designation, $total_cost);
 
             if ($stmt->execute()) {
                 $stmt->close();
