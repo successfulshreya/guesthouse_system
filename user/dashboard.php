@@ -6,6 +6,34 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 }
 ?>
 
+<?php
+
+include '../db_connect.php';
+
+$guesthouse_id = 13; 
+
+// Prepare the SQL statement.
+$sql = "SELECT r.id, r.room_id, IF(b.id IS NOT NULL, 'booked', 'available') AS today_status 
+        FROM rooms r
+        LEFT JOIN bookings b ON r.id = b.room_id AND CURDATE() BETWEEN b.checkin_date AND b.checkout_date 
+        WHERE r.guesthouse_id = ?";
+$stmt = $conn->prepare($sql);
+
+// Check for a preparation error.
+if ($stmt === false) {
+    die('Prepare failed: ' . htmlspecialchars($conn->error));
+}
+
+// Bind the parameter. The correct syntax is "$stmt->bind_param(...)".
+$stmt->bind_param("i", $guesthouse_id);
+
+// Execute the statement.
+$stmt->execute();
+
+// Get the result.
+$result = $stmt->get_result();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,6 +129,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
             font-size: 2rem;
             color: #0d6efd;
         }
+          
+            .room-box {
+                margin: 10px;
+                padding: 10px;
+                width: 140px;
+                border: 1px solid #ccc;
+                text-align: center;
+            }
+   
     </style>
 </head>
 <body>
@@ -110,7 +147,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     <div class="sidebar-header">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-people fs-1"></i>
-            <span class="fs-4 ms-3">USER<br><h6 class="text-white-50">(Book Room)</h6></span>
+            <span class="fs-4 ms-3"><h5>USER<h6 class="text-white-50">(Book Room)</h6></h5></span>
         </a>
     </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-3">
@@ -144,6 +181,27 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
             <h1 class="display-4">Welcome, User!</h1>
             <p class="lead">Book a room for your guests with ease.</p>
         </div>
+        
+
+    
+          
+        <h3>Today's Room Availability</h3>
+        <div style="display:flex; flex-wrap:wrap;">
+            <?php 
+            // The while loop must enclose the HTML content you want to repeat.
+            while ($row = $result->fetch_assoc()) {
+            ?>
+                <div class="room-box" style="background-color: <?= $row['today_status'] == 'available' ? '#a8f0a3' : '#f0a3a3'; ?>;">
+                    <?= htmlspecialchars($row['room_id']) ?><br>
+                    <strong><?= ucfirst($row['today_status']) ?></strong>
+                </div>
+            <?php 
+            } // Close the while loop here.
+            ?>
+        </div>
+  
+
+
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
@@ -192,3 +250,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 
 </body>
 </html>
+<?php
+// Close the statement and connection when you're done.
+$stmt->close();
+$conn->close();
+?>

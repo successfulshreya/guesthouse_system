@@ -224,7 +224,7 @@ if (!$result) {
                 <div class="alert alert-success"><?= htmlspecialchars($msg) ?></div>
             <?php } ?>
 
-            <table class="table table-bordered table-striped" style="width: 50%;">
+            <table class="table table-bordered table-striped" style="width: 40%;">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -260,7 +260,7 @@ if (!$result) {
                                            onclick="return confirm('Approve this booking?')">Approve</a>
                                         <a href="?action=reject&id=<?= $row['id'] ?>" 
                                            class="btn btn-warning btn-sm"
-                                           onclick="return confirm('Reject this booking?')">Reject</a>
+                                           onclick="return confirm('Reject this booking?')">Reject</a><br>
                                     <?php } ?>
                                     <?php if ($row['status'] !== 'cancelled') { ?>
                                         <a href="?action=cancel&id=<?= $row['id'] ?>" 

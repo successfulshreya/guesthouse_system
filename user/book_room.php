@@ -11,7 +11,7 @@ include '../includes/mail_config.php';
 // fetch guesthouses
 $gh_result = $conn->query("SELECT id, name, address FROM guesthouses ORDER BY name");
 
-$msg = '';
+$msg='';
 if (isset($_GET['success'])) {
     $msg = "Room booked successfully!";
 }
@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $msg = "Room is already booked for the selected dates.";
         } else {
             $stmt->close();
-
             // insert booking with guest info and pending status
             // $stmt_rate = $conn->prepare(
             //     "INSERT INTO bookings (user_id, room_id, checkin_date, checkout_date, guest_name, guest_designation, status)
@@ -241,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
 
         <div class="mb-3">
-        <label>Rate per Day: Rs.<span id="rate">1200</span></label>
+        <label>Rate per Day: Rs.<span id="rate">1200</span></label><br>
         <label>Total Cost: Rs.<span id="total_cost">0</span></label>
         </div>
 
