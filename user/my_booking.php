@@ -157,6 +157,10 @@ $result = $stmt->get_result();
         <li class="nav-item">
             <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
         </li>
+        </li>
+           <li class="nav-item">
+             <a href="report.php" class="nav-link"><i class="bi bi-journal"></i>Booking Report</a>
+        </li>
     </ul>
     <div class="p-3">
         <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>

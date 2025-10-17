@@ -297,13 +297,13 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `guesthouse_id`, `room_id`, `status`, `rate_per_day`) VALUES
-(1, 13, '101-A (Attached)', 'booked', 0.00),
-(2, 13, '102-B (Attached)', '', 0.00),
-(3, 13, '102-C (NON-Attached)', 'available', 0.00),
-(4, 13, '103-D  (Attached)', 'available', 0.00),
-(6, 13, '103-E (NON-Attached)', 'available', 0.00),
-(7, 13, '103-F (NON-Attached)', 'booked', 0.00),
-(8, 13, '601-G (Attached)', 'available', 0.00),
+(1, 13, '101-A (Attached)', 'booked', 1200.00),
+(2, 13, '102-B (Attached)', 'available', 1200.00),
+(3, 13, '102-C (NON-Attached)', 'available', 1200.00),
+(4, 13, '103-D  (Attached)', 'available', 1200.00),
+(6, 13, '103-E (NON-Attached)', 'available', 1200.00),
+(7, 13, '103-F (NON-Attached)', 'booked', 1200.00),
+(8, 13, '601-G (Attached)', 'available', 1200.00),
 (9, 13, '601-H (Attached)', 'available', 1200.00),
 (10, 13, '603-L (ATTACHED)', 'available', 1200.00),
 (11, 13, '603-M (NON-ATTACHED)', 'booked', 1200.00),
