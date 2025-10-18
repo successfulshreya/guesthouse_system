@@ -7,9 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 ?>
 
 <?php
-
 include '../db_connect.php';
-
 $guesthouse_id = 13; 
 
 // Prepare the SQL statement.
@@ -96,7 +94,7 @@ $result = $stmt->get_result();
             background-color: #0d6efd; /* Bootstrap primary color */
             color: #fff;
             text-align: center;
-            padding: 40px 20px;
+            padding: 25px 20px;
             border-radius: 10px;
             margin-bottom: 20px;
         }
@@ -131,11 +129,12 @@ $result = $stmt->get_result();
         }
           
             .room-box {
-                margin: 10px;
-                padding: 10px;
-                width: 140px;
+                margin: 5px;
+                padding: 5px;
+                width: 90px;
                 border: 1px solid #ccc;
                 text-align: center;
+                font-size:12px;
             }
    
     </style>
@@ -147,7 +146,7 @@ $result = $stmt->get_result();
     <div class="sidebar-header">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-people fs-1"></i>
-            <span class="fs-4 ms-3"><h5>USER<h6 class="text-white-50">(Book Room)</h6></h5></span>
+            <span class="fs-4 ms-3"><h6>USER<h6 class="text-white-50">(Book Room)</h6></h6></span>
         </a>
     </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-3">
@@ -186,26 +185,31 @@ $result = $stmt->get_result();
         </div>
         
 
-    
-          
-        <h3>Today's Room Availability</h3>
-        <div style="display:flex; flex-wrap:wrap;">
+        <h6>Today's Room Availability <b style="color: #4556e9ff;">[VIP KARISHMA (RAIPUR)]</b></h6>
+        <div style="display:flex;  flex-wrap:wrap; width:40%;">
             <?php 
             // The while loop must enclose the HTML content you want to repeat.
-            while ($row = $result->fetch_assoc()) {
+            while($row = $result->fetch_assoc()) {
             ?>
-                <div class="room-box" style="background-color: <?= $row['today_status'] == 'available' ? '#a8f0a3' : '#f0a3a3'; ?>;">
-                    <?= htmlspecialchars($row['room_id']) ?><br>
-                    <strong><?= ucfirst($row['today_status']) ?></strong>
-                </div>
+            <div class="room-box" style="background-color: <?= $row['today_status'] == 'available' ? '#a8f0a3' : '#f0a3a3'; ?>;">
+                <?= htmlspecialchars($row['room_id']) ?><br>
+                <strong><?= ucfirst($row['today_status']) ?></strong>
+            </div>
             <?php 
             } // Close the while loop here.
             ?>
         </div>
+         <hr>
+         <h6 >Today's Room Availability<b style="color: #3f4aeeff;">[COLONY (Siltara)]</b></h6>
+         <div>
+            
+          <table class="table table-striped">
   
+          </table>
+      
+        </div>
 
-
-
+         
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <a href="my_booking.php" class="text-decoration-none">
@@ -254,7 +258,7 @@ $result = $stmt->get_result();
 </body>
 </html>
 <?php
-// Close the statement and connection when you're done.
+// Closing the statement and connection when you're done.
 $stmt->close();
 $conn->close();
 ?>

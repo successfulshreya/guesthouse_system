@@ -1,173 +1,324 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
-    header("Location: ../index.php");
+include '../db_connect.php';
+
+if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user'){
+    header('Location:../index.php');
     exit();
 }
 
-include '../db_connect.php';
-
 $user_id = $_SESSION['user_id'];
 $from = $_GET['from'] ?? '';
-$to = $_GET['to'] ?? '';
-$data = [];
+$to = $_GET['to'] ?? '' ;
 
-if ($from && $to) {
-    $sql = "SELECT b.*, r.room_id AS room_label
-            FROM bookings b
-            JOIN rooms r ON b.room_id = r.id
-            WHERE b.user_id = ?
-            AND b.checkin_date BETWEEN ? AND ?";
+$guesthouse_id = isset($_GET['guesthouse_id']) ? intval($_GET['guesthouse_id']) : 0 ;
+//agar guesthouse id url mai present hai tho integer vaLUE KARKE STORE KARLO ELSE O ZERO STORE KARKE FALSE STAQORE KAROO
 
+//FETCHING THE GUESTHOUSE NAME FOR DROPDOWN
+$gh_stmt=$conn->Prepare("SELECT id , name FROM guesthouses WHERE name IN ('VIP karishma guest house','Colony guesthouse siltara')");
+$gh_stmt->execute();
+$guesthouses=$gh_stmt->get_result();
+$gh_stmt->close();
+
+$data = null;
+
+//if date filter applied
+$sql = "SELECT 
+    b.id,
+    b.user_id,
+    b.room_id,
+    b.guest_name,
+    b.guest_designation,
+    b.checkin_date,
+    b.checkout_date,
+    b.status,
+    b.total_cost,
+    b.room_id AS room_label,
+    IFNULL(r.rate_per_day, 0) AS rate_per_day,
+    g.name AS guesthouse_name,
+    DATEDIFF(b.checkout_date, b.checkin_date) AS days_calc
+FROM bookings b
+JOIN rooms r ON b.room_id = r.id
+JOIN guesthouses g ON r.guesthouse_id = g.id
+WHERE b.user_id = ?
+AND b.checkin_date BETWEEN ? AND ? AND b.status = 'approved'";
+
+
+//GUESTHOUSE FILTER
+if ($guesthouse_id > 0) {
+    $sql .= " AND g.id = ?";
     $stmt = $conn->prepare($sql);
-
     if (!$stmt) {
-        die("SQL Prepare Failed: " . $conn->error);  // helpful debugging
+        die("Failed to prepare statement: " . $conn->error);
     }
-
-    $stmt->bind_param("iss", $user_id, $from, $to);
-    $stmt->execute();
-    $data = $stmt->get_result();
+    $stmt->bind_param('issi', $user_id, $from, $to, $guesthouse_id);
+} else {
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Failed to prepare statement: " . $conn->error);
+    }
+    $stmt->bind_param('iss', $user_id, $from, $to);
 }
+
+
+$stmt->execute();
+$data=$stmt->get_result();
+$stmt->close();
+
 ?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Booking Report</title>
+    <meta charset="utf-8" />
+
+    <!--  Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
+        /*  Table styling */
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #ddd;
             border-collapse: collapse;
         }
         th, td {
             padding: 8px;
+            text-align: left;
         }
 
-         body {
-            min-height: 100vh;
-            display: flex;
-            background-color: #f0f2f5; /* Light gray background for a modern feel */
-        }
+        /*  Layout styling */
         .sidebar {
-            width: 250px; /* Slightly wider sidebar */
-            background: #212529; /* Darker background for more contrast */
+            width: 250px;
+            background: #212529;
             color: #fff;
-            flex-shrink: 0;
-            transition: width 0.3s;
+            min-height: 100vh;
         }
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #495057;
-        }
-        .sidebar .nav-link {
-            color: #adb5bd; /* Lighter gray text */
-            padding: 15px 20px;
-        }
-        .sidebar .nav-link.active {
-            background: #495057;
-            color: #fff;
-            border-left: 3px solid #0d6efd; /* Highlight active link */
-        }
-        .sidebar .nav-link:hover {
-            background: #343a40;
-            color: #fff;
-        }
-        .sidebar .nav-link i {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-           .topbar {
-            height: 70px;
+        .main-content { padding: 20px; }
+        .topbar {
             background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             margin-bottom: 20px;
-            border-radius: 8px; /* Rounded corners for the topbar */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+        }
+        .btn-sm { font-size: .85rem; }
+        .table{
+            width:50%;
         }
     </style>
 </head>
-    <body>
-            <!-- Sidebar -->
-        <nav class="sidebar d-flex flex-column">
-            <div class="sidebar-header">
-                        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-                                    <i class="bi bi-people fs-1"></i>
-                                    <span class="fs-4 ms-3"><h5>USER<h6 class="text-white-50">(Book Room)</h6></h5></span>
-                        </a>
-            </div>
-            <ul class="nav nav-pills flex-column flex-grow-1 p-3">
-                        <li class="nav-item">
-                                    <a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a>
-                        </li>
-                        <li class="nav-item">
-                                    <a href="my_booking.php" class="nav-link"><i class="bi bi-door-open"></i> My Bookings</a>
-                        </li>
-                        <li class="nav-item">
-                                    <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
-                        </li>
-                           <li class="nav-item">
-                                    <a href="report.php" class="nav-link"><i class="bi bi-journal"></i>Booking Report</a>
-                        </li>
-            </ul>
-            <div class="p-3">
-                        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
-            </div>
-        </nav>
 
-        <!-- Main content area -->
-            <div class="main-content">
-            <div class="topbar">
-                        <h5 class="mb-0">Dashboard</h5>
-                        <div class="d-flex align-items-center">
-                                    <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-                                    <span>Welcome, User</span>
-                        </div>
-            </div>
+<body style="display: flex; min-height: 100vh; background: #f0f2f5;">
+
+<!--  Sidebar -->
+<nav class="sidebar d-flex flex-column p-3">
+    <div class="sidebar-header text-center mb-3">
+        <i class="bi bi-people fs-1"></i>
+        <div class="mt-2"><strong>USER</strong></div>
+        <small class="text-white-50">(Reports)</small>
+    </div>
+
+    <ul class="nav nav-pills flex-column">
         
-    <h3>Booking Report</h3>
+        <li class="nav-item"><a href="dashboard.php" class="nav-link text-light"><i class="bi bi-building"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="availability.php" class="nav-link text-light"><i class="bi bi-building"></i> Availability</a></li>
+        <li class="nav-item"><a href="my_booking.php" class="nav-link text-light"><i class="bi bi-door-open"></i> My Bookings</a></li>
+        <li class="nav-item"><a href="book_room.php" class="nav-link text-light"><i class="bi bi-calendar-check"></i> Book Room</a></li>
+        <li class="nav-item"><a href="report.php" class="nav-link active text-light"><i class="bi bi-journal"></i> Booking Report</a></li>
+    </ul>
 
-    <form method="get">
-        <label>From:</label>
-        <input type="date" name="from" required value="<?= htmlspecialchars($from) ?>">
+    <div class="mt-auto p-3">
+        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+</nav>
 
-        <label>To:</label>
-        <input type="date" name="to" required value="<?= htmlspecialchars($to) ?>">
+<!--  Main content -->
+<div class="main-content flex-grow-1">
 
-        <button type="submit">View</button>
+    <!--  Topbar -->
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0">Booking Report</h5>
+            <small class="text-muted">View & export your bookings</small>
+        </div>
+        <div>
+            <strong style="color:chocolate">SARDA ENERGY and MINERALS LTD</strong>
+        </div>
+    </div>
+
+    <!--  Filters -->
+    <form method="get" class="row g-2 align-items-end mb-3">
+        <div class="col-auto">
+            <label class="form-label">From</label>
+            <input type="date" name="from" class="form-control" required value="<?= htmlspecialchars($from) ?>">
+        </div>
+        <div class="col-auto">
+            <label class="form-label">To</label>
+            <input type="date" name="to" class="form-control" required value="<?= htmlspecialchars($to) ?>">
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Guesthouse</label>
+            <select name="guesthouse_id" class="form-select">
+                <option value="0">All Guesthouses</option>
+                <?php while ($gh = $guesthouses->fetch_assoc()): ?>
+                    <option value="<?= $gh['id'] ?>" <?= $guesthouse_id == $gh['id'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($gh['name']) ?>
+                    </option>
+                <?php endwhile; ?>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">View</button>
+        </div>
     </form>
 
+    <!--  Print / Copy / Export Buttons -->
+    <div class="mb-3">
+        <button class="btn btn-success btn-sm me-2" onclick="printReport()">
+            <i class="bi bi-printer"></i> Print
+        </button>
+        <button class="btn btn-primary btn-sm me-2" onclick="copyReport()">
+            <i class="bi bi-clipboard"></i> Copy
+        </button>
+        <button class="btn btn-warning btn-sm" onclick="exportCSV()">
+            <i class="bi bi-download"></i> Export CSV
+        </button>
+    </div>
+
+    <!--  Report Table -->
     <?php if ($from && $to): ?>
         <?php if ($data && $data->num_rows > 0): ?>
-            <table>
-                <tr>
-                    <th>Room</th>
-                    <th>Check-in</th>
-                    <th>Check-out</th>
-                    <th>Total Cost (Rs)</th>
-                </tr>
-                <?php while ($b = $data->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($b['room_label']) ?></td>
-                        <td><?= htmlspecialchars($b['checkin_date']) ?></td>
-                        <td><?= htmlspecialchars($b['checkout_date']) ?></td>
-                        <td>Rs <?= number_format($b['total_cost'], 2) ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </table>
+            <div class="table-responsive">
+                <table class="table" id="reportTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Guesthouse</th>
+                            <th>Room</th>
+                            <!-- <th>Guest</th> -->
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Days</th>
+                            <!-- <th>Rate (Rs)</th> -->
+                            <th>Total Cost (Rs)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($b = $data->fetch_assoc()): 
+                            $days = max(1, (int)$b['days_calc']);
+                            $rate = (float)$b['rate_per_day'];
+                            $total = (float)$b['total_cost'] > 0 ? $b['total_cost'] : $days * $rate;
+                        ?>
+                        <tr>
+                            <td><?= htmlspecialchars($b['id']) ?></td>
+                            <td><?= htmlspecialchars($b['guesthouse_name']) ?></td>
+                            <td><?= htmlspecialchars($b['room_label']) ?></td>
+                       
+                            <td><?= htmlspecialchars($b['checkin_date']) ?></td>
+                            <td><?= htmlspecialchars($b['checkout_date']) ?></td>
+                            <td><?= $days ?></td>
+                         
+                            <td><?= number_format($total,2) ?></td>
+                            <td>
+                                <span class="badge 
+                                    <?= $b['status']=='approved' ? 'bg-success' : 
+                                       ($b['status']=='pending' ? 'bg-warning text-dark' : 'bg-danger') ?>">
+                                    <?= ucfirst($b['status']) ?>
+                                </span>
+                            </td>
+                        </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php else: ?>
-            <p>No bookings found in this date range.</p>
+            <div class="alert alert-info">No bookings found in this date range.</div>
         <?php endif; ?>
-        <?php endif; ?>
-    </body>
+    <?php endif; ?>
+</div>
+
+
+
+<!--  JS Functions -->
+<script>
+function printReport() {
+    const table = document.getElementById('reportTable');
+    if (!table) return alert('No report to print');
+
+    const w = window.open('', '_blank');
+    w.document.write(`
+        <html><head><title>Print Report</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            table, th, td { border:1px solid #ddd; border-collapse:collapse; padding:8px; }
+        </style>
+        </head><body>
+        <h3>Booking Report</h3>
+        ${table.outerHTML}
+        </body></html>
+    `);
+    w.document.close();
+    w.print();
+}
+
+function copyReport() {
+    const table = document.getElementById('reportTable');
+    if (!table) return alert('No report to copy');
+
+    const range = document.createRange();
+    range.selectNode(table);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    try {
+        document.execCommand('copy');
+        alert('Report copied to clipboard. now can paste on Excel/Word .');
+    } catch (e) {
+        alert('Copy failed: ' + e);
+    }
+    sel.removeAllRanges();
+}
+
+function exportCSV() {
+    const table = document.getElementById('reportTable');
+    if (!table) return alert('No report to export');
+
+    const rows = [];
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText.trim());
+    rows.push(headers.join(','));
+
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        const cols = Array.from(tr.querySelectorAll('td')).map(td => {
+            let txt = td.innerText.replace(/"/g, '""').trim();
+            if (txt.includes(',') || txt.includes('"')) txt = `"${txt}"`;
+            return txt;
+        });
+        rows.push(cols.join(','));
+    });
+
+    const csv = rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    const from = document.querySelector('input[name="from"]').value || 'from';
+    const to = document.querySelector('input[name="to"]').value || 'to';
+    a.download = `booking_report_${from}_to_${to}.csv`;
+
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
 </html>
+

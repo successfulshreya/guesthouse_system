@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="sidebar-header">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-people fs-1"></i>
-            <span class="fs-4 ms-3">USER<br><h6 class="text-white-50">(Book Room)</h6></span>
+            <span class="fs-4 ms-3"><H6>USER<br><h6 class="text-white-50">(Book Room)</h6></H6></span>
         </a>
     </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-3">
