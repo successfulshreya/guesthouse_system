@@ -22,13 +22,6 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        /* body { min-height: 100vh; display: flex; }
-        .sidebar { width: 220px; background: #343a40; color: #fff; flex-shrink: 0; }
-        .sidebar .nav-link { color: #ddd; }
-        .sidebar .nav-link.active { background: #495057; color: #fff; }
-        .sidebar .nav-link:hover { background: #495057; color: #fff; }
-        .sidebar .nav-link i { margin-right: 8px; } */
-        /* .main-content { flex-grow: 1; padding: 20px; } */
         .topbar { height: 60px; background: #f8f9fa; display: flex; align-items: center;
                   justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e0e0e0; }
         .card-action { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
@@ -74,7 +67,7 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
         <h5 class="mb-0">Dashboard</h5>
         <div class="d-flex align-items-center">
              <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-            <span>Welcome, User</span>
+           
         </div>
     </div>
 

@@ -11,7 +11,7 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
 
 $msg = '';
 if(isset($_GET['success'])){
-    $msg="room added successfully :)";
+    $msg="Room Added Successfully :) !!";
 }
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // get inputs safely
@@ -46,43 +46,56 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
              <style>
-    body {
-      min-height: 100vh;
-      display: flex;
-    }
-    .sidebar {
-      width: 220px;
-      background: #343a40;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .sidebar .nav-link {
-      color: #ddd;
-    }
-    .sidebar .nav-link.active {
-      background: #495057;
-      color: #fff;
-    }
-    .sidebar .nav-link:hover {
-      background: #495057;
-      color: #fff;
-    }
-    .sidebar .nav-link i {
-      margin-right: 8px;
-    }
-    .main-content {
-      flex-grow: 1;
-      padding: 20px;
-    }
-    .topbar {
-      height: 60px;
-      background: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid #e0e0e0;
-    }
+     body {
+            min-height: 100vh;
+            display: flex;
+            background-color: #f0f2f5;
+        }
+        .sidebar {
+            width: 250px;
+            background: #212529;
+            color: #fff;
+            flex-shrink: 0;
+            transition: width 0.3s;
+        }
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #495057;
+        }
+        .sidebar .nav-link {
+            color: #adb5bd;
+            padding: 15px 20px;
+        }
+        .sidebar .nav-link.active {
+            background: #495057;
+            color: #fff;
+            border-left: 3px solid #0d6efd;
+        }
+        .sidebar .nav-link:hover {
+            background: #343a40;
+            color: #fff;
+        }
+        .sidebar .nav-link i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .topbar {
+            height: 70px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
     .card-action {
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -91,59 +104,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-  </style> <style>
-    body {
-      min-height: 100vh;
-      display: flex;
-    }
-    .sidebar {
-      width: 220px;
-      background: #343a40;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .sidebar .nav-link {
-      color: #ddd;
-    }
-    .sidebar .nav-link.active {
-      background: #495057;
-      color: #fff;
-    }
-    .sidebar .nav-link:hover {
-      background: #495057;
-      color: #fff;
-    }
-    .sidebar .nav-link i {
-      margin-right: 8px;
-    }
-    .main-content {
-      flex-grow: 1;
-      padding: 20px;
-    }
-    .topbar {
-      height: 60px;
-      background: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .card-action {
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card-action:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+  
   </style>
 </head>
 <body >
-      <nav class="sidebar d-flex flex-column">
+    
+<!-- Sidebar -->
+<nav class="sidebar d-flex flex-column">
     <div class="sidebar-header">
         <a href="dashboard.php" class="text-decoration-none">
-           
+            <img src="../sardalogo.jpg" style="width:fix-content; height:80px; padding-bottom:10px;">
         </a>
         <div class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-person-fill-gear fs-1"></i>
@@ -152,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-3">
       <li class="nav-item">
-            <a href="dashboard.php" class="nav-link">Dashboard</a>
+            <a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</a>
         </li>
         <li class="nav-item">
             <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add Employee</a>
@@ -214,6 +184,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <label for="status" class="form-label">Status</label>
             <input type="text" name="status" id="status" class="form-control" required>
         </div>
+
+          <!-- <div class="mb-3">
+            <label for="rate" class="form-label">rate_per_day</label>
+            <input type="text" name="status" id="status" class="form-control" required>
+        </div> -->
 
         <button type="submit" class="btn btn-primary">Add Room</button>
         <a href="dashboard.php" class="btn btn-secondary">Back</a>

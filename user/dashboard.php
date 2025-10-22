@@ -136,6 +136,10 @@ $result = $stmt->get_result();
                 text-align: center;
                 font-size:12px;
             }
+            .avail{
+                display: flex;
+                justify-content:space-between;
+            }
    
     </style>
 </head>
@@ -173,9 +177,12 @@ $result = $stmt->get_result();
     <div class="topbar">
         <h5 class="mb-0">Dashboard</h5>
         <div class="d-flex align-items-center">
-            <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-            <span>Welcome, User</span>
+            <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD </h6>
+            <br>  <span> Welcome, User</span>
+             <i class="bi bi-person-circle fs-2"></i>
+           
         </div>
+        
     </div>
 
     <div class="container-fluid">
@@ -184,31 +191,31 @@ $result = $stmt->get_result();
             <p class="lead">Book a room for your guests with ease.</p>
         </div>
         
-
-        <h6>Today's Room Availability <b style="color: #4556e9ff;">[VIP KARISHMA (RAIPUR)]</b></h6>
-        <div style="display:flex;  flex-wrap:wrap; width:40%;">
-            <?php 
-            // The while loop must enclose the HTML content you want to repeat.
-            while($row = $result->fetch_assoc()) {
-            ?>
-            <div class="room-box" style="background-color: <?= $row['today_status'] == 'available' ? '#a8f0a3' : '#f0a3a3'; ?>;">
-                <?= htmlspecialchars($row['room_id']) ?><br>
-                <strong><?= ucfirst($row['today_status']) ?></strong>
+        <div class="avail">
+            <div style="display:flex;  flex-wrap:wrap; width:40%; margin-left:0;">
+              <h6>Today's Room Availability <b style="color: #4556e9ff;">[VIP KARISHMA (RAIPUR)]</b></h6>
+               <br>
+                <?php 
+                // The while loop must enclose the HTML content you want to repeat.
+                while($row = $result->fetch_assoc()) {
+                ?>
+                    <div class="room-box" style="background-color: <?= $row['today_status'] == 'available' ? '#a8f0a3' : '#f0a3a3'; ?>;">
+                       <?= htmlspecialchars($row['room_id']) ?><br>
+                       <strong><?= ucfirst($row['today_status']) ?></strong>
+                    </div>
+                <?php 
+                } // Close the while loop here.
+                ?>
             </div>
-            <?php 
-            } // Close the while loop here.
-            ?>
-        </div>
-         <hr>
-         <h6 >Today's Room Availability<b style="color: #3f4aeeff;">[COLONY (Siltara)]</b></h6>
-         <div>
-            
-          <table class="table table-striped">
-  
-          </table>
-      
-        </div>
+            <hr>
 
+            <div>
+                <h6 >Today's Room Availability<b style="color: #3f4aeeff;">[COLONY (Siltara)]</b></h6>
+                <table class="table table-striped">
+  
+                </table>
+            </div>
+        </div>
          
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
