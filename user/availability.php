@@ -22,55 +22,49 @@ $gh_result = $conn->query("SELECT id, name FROM guesthouses ORDER BY name");
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        .topbar { height: 60px; background: #f8f9fa; display: flex; align-items: center;
-                  justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e0e0e0; }
+        /* .topbar { height: 60px; background: #f8f9fa; display: flex; align-items: center;
+                  justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e0e0e0; } */
         .card-action { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .card-action:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body>
+<body style="display: flex; min-height: 100vh; background: #f0f2f5;">
 
-<!-- Sidebar -->
-<nav class="sidebar d-flex flex-column">
-    <div class="sidebar-header">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-            <i class="bi bi-people fs-1"></i>
-            <span class="fs-4 ms-3"><H6>USER<br><h6 class="text-white-50">(Book Room)</h6></H6></span>
-        </a>
+<!--  Sidebar -->
+<nav class="sidebar d-flex flex-column p-3">
+    <div class="sidebar-header text-center mb-3">
+        <i class="bi bi-people fs-1"></i>
+        <div class="mt-2"><strong>USER</strong></div>
+        <small class="text-white-50">(Reports)</small>
     </div>
-    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
-         <li class="nav-item">
-            <a href="dashboard.php" class="nav-link"><i class="bi bi-building"></i> Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a>
-        </li>
-        <li class="nav-item">
-            <a href="my_booking.php" class="nav-link"><i class="bi bi-door-open"></i> My Bookings</a>
-        </li>
-        <li class="nav-item">
-            <a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a>
-        </li>
-        </li>
-           <li class="nav-item">
-              <a href="report.php" class="nav-link"><i class="bi bi-journal"></i>Booking Report</a>
-        </li>
+
+    <ul class="nav nav-pills flex-column">
+        
+        <li class="nav-item"><a href="dashboard.php" class="nav-link text-light"><i class="bi bi-building"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="availability.php" class="nav-link text-light"><i class="bi bi-building"></i> Availability</a></li>
+        <li class="nav-item"><a href="my_booking.php" class="nav-link text-light"><i class="bi bi-door-open"></i> My Bookings</a></li>
+        <li class="nav-item"><a href="book_room.php" class="nav-link text-light"><i class="bi bi-calendar-check"></i> Book Room</a></li>
+        <li class="nav-item"><a href="report.php" class="nav-link active text-light"><i class="bi bi-journal"></i> Booking Report</a></li>
     </ul>
-    <div class="p-3">
+
+    <div class="mt-auto p-3">
         <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
     </div>
 </nav>
 
-<!-- Main content -->
-<div class="main-content">
-    <div class="topbar">
-        <h5 class="mb-0">Dashboard</h5>
-        <div class="d-flex align-items-center">
-             <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-           
+<!--  Main content -->
+<div class="main-content flex-grow-1">
+
+    <!--  Topbar -->
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0">Room Availability</h5>
+            <small class="text-muted">Check Room Availability</small>
+        </div>
+        <div>
+            <strong style="color:chocolate">SARDA ENERGY and MINERALS LTD</strong>
         </div>
     </div>
-
     <div class="container my-4"><br>
         <h2>Check Room Availability</h2>
 

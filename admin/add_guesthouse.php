@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         }
         .sidebar {
             width: 250px;
-            background: #212529;
+            background: #0974dfff;
             color: #fff;
             flex-shrink: 0;
             transition: width 0.3s;
@@ -76,7 +76,7 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
             border-left: 3px solid #0d6efd;
         }
         .sidebar .nav-link:hover {
-            background: #343a40;
+            background: #428bd4ff;
             color: #fff;
         }
         .sidebar .nav-link i {
@@ -107,7 +107,7 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
 <nav class="sidebar d-flex flex-column">
     <div class="sidebar-header">
         <a href="dashboard.php" class="text-decoration-none">
-            <img src="../sardalogo.jpg" style="width:fix-content; height:80px; padding-bottom:10px;">
+            <img src="logo.png" style="width: 220px; height:50%; padding-bottom:10px;">
         </a>
         <div class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-person-fill-gear fs-1"></i>
@@ -119,7 +119,7 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
             <a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</a>
         </li>
         <li class="nav-item">
-            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add Employee</a>
+            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a>
         </li>
         <li class="nav-item">
             <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>

@@ -242,8 +242,6 @@ $stmt->close();
     <?php endif; ?>
 </div>
 
-
-
 <!--  JS Functions -->
 <script>
 function printReport() {

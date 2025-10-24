@@ -22,7 +22,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         }
         .sidebar {
             width: 250px;
-            background: #212529;
+            background: #1d6fc2ff;
             color: #fff;
             flex-shrink: 0;
             transition: width 0.3s;
@@ -42,7 +42,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             border-left: 3px solid #0d6efd;
         }
         .sidebar .nav-link:hover {
-            background: #343a40;
+            background: #428bd4ff;
             color: #fff;
         }
         .sidebar .nav-link i {
@@ -65,14 +65,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        .welcome-card {
-            background-color: #0d6efd;
-            color: #fff;
-            text-align: center;
-            padding: 40px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+        
         .card-action {
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -110,16 +103,16 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <nav class="sidebar d-flex flex-column">
     <div class="sidebar-header">
         <a href="dashboard.php" class="text-decoration-none">
-            <img src="../sardalogo.jpg" style="width:fix-content; height:80px; padding-bottom:10px;">
+            <img src="logo.png" style="width: 220px; height:50%; padding-bottom:10px;">
         </a>
-        <div class="d-flex align-items-center text-white text-decoration-none">
+         <div class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-person-fill-gear fs-1"></i>
             <span class="fs-4 ms-3">ADMIN</span>
         </div>
     </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-3">
         <li class="nav-item">
-            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add Employee</a>
+            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a>
         </li>
         <li class="nav-item">
             <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
@@ -137,9 +130,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 </nav>
 
 <!-- Main content area -->
-<div class="main-content">
-    <div class="topbar">
-        <h5 class="mb-0">Dashboard</h5>
+<div class="main-content" >
+    <div class="topbar" style="background-color: #1f76ceff;">
+        <h5 class="mb-0" style="color:white;">Dashboard</h5>
         <div class="d-flex align-items-center">
                  <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
             <span>Welcome, Admin</span>
@@ -147,10 +140,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </div>
 
     <div class="container-fluid">
-        <div class="welcome-card mb-4">
+        <!-- <div class="welcome-card mb-4">
             <h1 class="display-4">Welcome, Admin!</h1>
             <p class="lead">Use the tools below to manage employees, guesthouses, and bookings.</p>
-        </div>
+        </div> -->
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
@@ -161,7 +154,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                                 <i class="bi bi-person-plus text-primary"></i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0">Add Employee</h5>
+                                <h5 class="card-title mb-0">Add User</h5>
                                 <p class="text-muted mb-0">Create new user accounts.</p>
                             </div>
                         </div>

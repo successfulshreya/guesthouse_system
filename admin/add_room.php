@@ -18,12 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $guesthouse_id = intval($_POST['guesthouse_id'] ?? 0);
     $room_id = trim($_POST['room_id'] ?? '');
     $status = trim($_POST['status'] ?? '');
+    $rate_per_day = floatval($_POST['rate_per_day'] ?? 0);
 
-    if ($guesthouse_id <= 0 || $room_id === '' || $status === '') {
+    if ($guesthouse_id <= 0 || $room_id === '' || $status === '' || $rate_per_day <= 0) {
         $msg = "Please fill all the fields.";
     } else {
-        $stmt = $conn->prepare("INSERT INTO rooms (guesthouse_id, room_id, status) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $guesthouse_id, $room_id, $status);
+        $stmt = $conn->prepare("INSERT INTO rooms (guesthouse_id, room_id, status,rate_per_day) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("issd", $guesthouse_id, $room_id, $status,$rate_per_day);
 
         if ($stmt->execute()) {
             // $msg = "Room added successfully.";
@@ -46,14 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
              <style>
-     body {
+  body {
             min-height: 100vh;
             display: flex;
             background-color: #f0f2f5;
         }
         .sidebar {
             width: 250px;
-            background: #212529;
+            background: #0974dfff;
             color: #fff;
             flex-shrink: 0;
             transition: width 0.3s;
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             border-left: 3px solid #0d6efd;
         }
         .sidebar .nav-link:hover {
-            background: #343a40;
+            background: #428bd4ff;
             color: #fff;
         }
         .sidebar .nav-link i {
@@ -96,6 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
+        
+    
     .card-action {
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -112,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <!-- Sidebar -->
 <nav class="sidebar d-flex flex-column">
     <div class="sidebar-header">
-        <a href="dashboard.php" class="text-decoration-none">
-            <img src="../sardalogo.jpg" style="width:fix-content; height:80px; padding-bottom:10px;">
+         <a href="dashboard.php" class="text-decoration-none">
+            <img src="logo.png" style="width: 220px; height:50%; padding-bottom:10px;">
         </a>
         <div class="d-flex align-items-center text-white text-decoration-none">
             <i class="bi bi-person-fill-gear fs-1"></i>
@@ -125,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</a>
         </li>
         <li class="nav-item">
-            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add Employee</a>
+            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a>
         </li>
         <li class="nav-item">
             <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
@@ -185,10 +188,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <input type="text" name="status" id="status" class="form-control" required>
         </div>
 
-          <!-- <div class="mb-3">
-            <label for="rate" class="form-label">rate_per_day</label>
-            <input type="text" name="status" id="status" class="form-control" required>
-        </div> -->
+           <div class="mb-3">
+            <label for="rate_per_day" class="form-label">Rate per day(rs.)</label>
+            <input type="number" name="rate_per_day" id="rate_per_day" class="form-control" step="0.01" required>
+        </div> 
 
         <button type="submit" class="btn btn-primary">Add Room</button>
         <a href="dashboard.php" class="btn btn-secondary">Back</a>
