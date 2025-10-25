@@ -106,9 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Book Room</title>
-    <link rel="stylesheet" href="../style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <title>User Panel Dashboard</title>
+    <link rel="stylesheet" href="style.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+   
     <script>
         // Fetch rooms dynamically based on guesthouse
         function loadRooms(guesthouseId) {
@@ -125,52 +128,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </script>
     <style>
-     
+        .container {
+            width: 70%;
+            height: 50%;
+        }
       .card-action { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
       .card-action:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body>
- <body style="display: flex; min-height: 100vh; background: #f0f2f5;">
+ <body>
 
-<!--  Sidebar -->
-<nav class="sidebar d-flex flex-column p-3">
-    <div class="sidebar-header text-center mb-3">
-        <i class="bi bi-people fs-1"></i>
-        <div class="mt-2"><strong>USER</strong></div>
-        <small class="text-white-50">(Reports)</small>
+<!-- Sidebar -->
+<nav class="sidebar">
+    <div>
+        <div class="sidebar-header">
+            <img src="lo.png" alt="Logo" style="width: 150px;" height="150px;">
+             <div class="user-title">USER</div>
+            <div class="user-subtitle">Dashboard</div>
+        </div>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item"><a href="dashboard.php" class="nav-link active"><i class="bi bi-house-fill"></i> Dashboard</a></li>
+            <li class="nav-item"><a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a></li>
+            <li class="nav-item"><a href="my_booking.php" class="nav-link"><i class="bi bi-card-list"></i> My Bookings</a></li>
+            <li class="nav-item"><a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a></li>
+            <li class="nav-item"><a href="report.php" class="nav-link"><i class="bi bi-journal"></i> Booking Report</a></li>
+        </ul>
     </div>
 
-    <ul class="nav nav-pills flex-column">
-        
-        <li class="nav-item"><a href="dashboard.php" class="nav-link text-light"><i class="bi bi-building"></i> Dashboard</a></li>
-        <li class="nav-item"><a href="availability.php" class="nav-link text-light"><i class="bi bi-building"></i> Availability</a></li>
-        <li class="nav-item"><a href="my_booking.php" class="nav-link text-light"><i class="bi bi-door-open"></i> My Bookings</a></li>
-        <li class="nav-item"><a href="book_room.php" class="nav-link text-light"><i class="bi bi-calendar-check"></i> Book Room</a></li>
-        <li class="nav-item"><a href="report.php" class="nav-link active text-light"><i class="bi bi-journal"></i> Booking Report</a></li>
-    </ul>
-
-    <div class="mt-auto p-3">
-        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    <div class="p-3">
+        <a href="../logout.php" class="nav-link text-muted"><i class="bi bi-box-arrow-right"></i> Logout</a>
     </div>
 </nav>
 
-<!--  Main content -->
-<div class="main-content flex-grow-1">
-
-    <!--  Topbar -->
-    <div class="topbar d-flex justify-content-between align-items-center">
-        <div>
-            <h5 class="mb-0">Book Room</h5>
-            <small class="text-muted">Book Rooms For Guests</small>
-        </div>
-        <div>
-            <strong style="color:chocolate">SARDA ENERGY and MINERALS LTD</strong>
+<!-- Main Content -->
+<div class="main-content">
+    <div class="topbar">
+        <h5 class="mb-0">Dashboard</h5>
+        <div class="d-flex align-items-center">
+            <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD </h6>
+            <?php echo htmlspecialchars($_SESSION['email']) ?>
+            <i class="bi bi-person-circle fs-2 ms-2"></i>
         </div>
     </div>
 
-
-    <div class="container mb-3"><br>
+    <div class="container mb-7 m-0"><br>
       <h2 class="mt-3 mb-3">Book Rooms for Guests</h2>
 
       <?php if (!empty($msg)): ?>

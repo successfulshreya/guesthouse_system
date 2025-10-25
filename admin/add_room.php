@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
              <style>
-  body {
+  /* body {
             min-height: 100vh;
             display: flex;
             background-color: #f0f2f5;
@@ -106,51 +106,37 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     .card-action:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+    } */
   
   </style>
 </head>
 <body >
-    
-<!-- Sidebar -->
-<nav class="sidebar d-flex flex-column">
+
+<!-- SIDEBAR -->
+<nav class="sidebar d-flex flex-column" id="sidebar">
     <div class="sidebar-header">
-         <a href="dashboard.php" class="text-decoration-none">
-            <img src="logo.png" style="width: 220px; height:50%; padding-bottom:10px;">
-        </a>
-        <div class="d-flex align-items-center text-white text-decoration-none">
-            <i class="bi bi-person-fill-gear fs-1"></i>
-            <span class="fs-4 ms-3">ADMIN</span>
-        </div>
+        <img src="logo.png" style="width: 180px;">
     </div>
-    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
-      <li class="nav-item">
-            <a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a>
-        </li>
-        <li class="nav-item">
-            <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
-        </li>
-        <li class="nav-item">
-            <a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i> Add Room</a>
-        </li>
-        <li class="nav-item">
-            <a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i> Manage Booking</a>
-        </li>
+    <ul class="nav nav-pills flex-column flex-grow-1 p-2">
+          <li><a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</span></a></li>
+        <li><a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i><span> Add User</span></a></li>
+        <li><a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i><span> Add Guesthouse</span></a></li>
+        <li><a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i><span> Add Room</span></a></li>
+        <li><a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i><span> Manage Booking</span></a></li>
     </ul>
     <div class="p-3">
-        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+         <a href="../logout.php" class="nav-link text-dark-50"><i class="bi bi-box-arrow-right"></i><span> Logout</span></a>
     </div>
 </nav>
-    <!-- Main content area -->
-    <div class="main-content">
-       <div class="topbar">
-        <h5 class="mb-0">Dashboard</h5>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="topbar">
+        <h5>Add Room</h5>
         <div class="d-flex align-items-center">
-            <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-            <span>Welcome, Admin</span>
+            <button class="btn btn-light btn-sm me-3" onclick="toggleSidebar()">
+                <i class="bi bi-list"></i></button>
+           <?php echo htmlspecialchars($_SESSION['email']); ?>
         </div>
     </div>
 
@@ -197,6 +183,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <a href="dashboard.php" class="btn btn-secondary">Back</a>
     </form>
             </div>
+            <!-- SIDEBAR TOGGLE SCRIPT -->
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("collapsed");
+    }
+
+    // Highlight current sidebar menu based on URL
+    const links = document.querySelectorAll('.sidebar .nav-link');
+    links.forEach(link => {
+        if (link.href === window.location.href) {
+            link.classList.add('active');
+        }
+    });
+</script>
               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoC54FuqKaufMkyO5o6FGSh+I4q3p5KlvTXCUzwx4Pp1FBr" crossorigin="anonymous"></script>
 </body>

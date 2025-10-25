@@ -83,7 +83,7 @@ $result = $stmt->get_result();
 <html>
 <head>
     <title>My Bookings</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
       <!--  Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -101,44 +101,42 @@ $result = $stmt->get_result();
 </head>
 <body>
 
- <body style="display: flex; min-height: 100vh; background: #f0f2f5;">
+<!-- Sidebar -->
+<nav class="sidebar">
+    <div>
+        <div class="sidebar-header">
+            <img src="lo.png" alt="Logo" style="width: 150px;" height="150px;">
+            <div class="user-title">USER</div>
+            <div class="user-subtitle">Dashboard</div>
+        </div>
 
-<!--  Sidebar -->
-<nav class="sidebar d-flex flex-column p-3">
-    <div class="sidebar-header text-center mb-3">
-        <i class="bi bi-people fs-1"></i>
-        <div class="mt-2"><strong>USER</strong></div>
-        <small class="text-white-50">(Reports)</small>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item"><a href="dashboard.php" class="nav-link active"><i class="bi bi-house-fill"></i> Dashboard</a></li>
+            <li class="nav-item"><a href="availability.php" class="nav-link"><i class="bi bi-building"></i> Availability</a></li>
+            <li class="nav-item"><a href="my_booking.php" class="nav-link"><i class="bi bi-card-list"></i> My Bookings</a></li>
+            <li class="nav-item"><a href="book_room.php" class="nav-link"><i class="bi bi-calendar-check"></i> Book Room</a></li>
+            <li class="nav-item"><a href="report.php" class="nav-link"><i class="bi bi-journal"></i> Booking Report</a></li>
+        </ul>
     </div>
 
-    <ul class="nav nav-pills flex-column">
-        
-        <li class="nav-item"><a href="dashboard.php" class="nav-link text-light"><i class="bi bi-building"></i> Dashboard</a></li>
-        <li class="nav-item"><a href="availability.php" class="nav-link text-light"><i class="bi bi-building"></i> Availability</a></li>
-        <li class="nav-item"><a href="my_booking.php" class="nav-link text-light"><i class="bi bi-door-open"></i> My Bookings</a></li>
-        <li class="nav-item"><a href="book_room.php" class="nav-link text-light"><i class="bi bi-calendar-check"></i> Book Room</a></li>
-        <li class="nav-item"><a href="report.php" class="nav-link active text-light"><i class="bi bi-journal"></i> Booking Report</a></li>
-    </ul>
-
-    <div class="mt-auto p-3">
-        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    <div class="p-3">
+        <a href="../logout.php" class="nav-link text-muted"><i class="bi bi-box-arrow-right"></i> Logout</a>
     </div>
 </nav>
 
-<!--  Main content -->
-<div class="main-content flex-grow-1">
-
-    <!--  Topbar -->
-    <div class="topbar d-flex justify-content-between align-items-center">
-        <div>
+<!-- Main Content -->
+<div class="main-content">
+    <div class="topbar">
+         <div>
             <h5 class="mb-0">My Booking </h5>
             <small class="text-muted">View your bookings</small>
         </div>
-        <div>
-            <strong style="color:chocolate">SARDA ENERGY and MINERALS LTD</strong>
+        <div class="d-flex align-items-center">
+            <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD </h6>
+            <?php echo htmlspecialchars($_SESSION['email']) ?>
+            <i class="bi bi-person-circle fs-2 ms-2"></i>
         </div>
     </div>
-
  
 
     <div class="container mb-3"><br>
