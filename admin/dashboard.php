@@ -10,213 +10,176 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <head>
     <meta charset="UTF-8"/>
     <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
         body {
             min-height: 100vh;
             display: flex;
             background-color: #f0f2f5;
         }
+
+        /* SIDEBAR */
         .sidebar {
             width: 250px;
-            background: #1d6fc2ff;
+            background: linear-gradient(180deg, #1976d2, #42a5f5);
             color: #fff;
             flex-shrink: 0;
-            transition: width 0.3s;
+            transition: width 0.3s ease;
+        }
+        .sidebar.collapsed {
+            width: 80px;
         }
         .sidebar-header {
             padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #495057;
         }
         .sidebar .nav-link {
-            color: #adb5bd;
+            color: #e3e3e3;
             padding: 15px 20px;
+            border-radius: 8px;
+            margin: 5px 10px;
+            transition: background 0.2s;
         }
         .sidebar .nav-link.active {
-            background: #495057;
-            color: #fff;
-            border-left: 3px solid #0d6efd;
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #ffffff;
         }
         .sidebar .nav-link:hover {
-            background: #428bd4ff;
+            background: rgba(255, 255, 255, 0.15);
             color: #fff;
         }
         .sidebar .nav-link i {
             margin-right: 12px;
-            font-size: 1.2rem;
         }
+
+        /* MAIN AREA */
         .main-content {
             flex-grow: 1;
             padding: 20px;
         }
+
+        /* TOPBAR */
         .topbar {
             height: 70px;
-            background: #fff;
+            background: #1976d2;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            color: #fff;
+            margin-bottom: 20px;
         }
-        
+
+        /* CARDS */
         .card-action {
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #e9ecef;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 20px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
         }
         .card-action:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
         }
-        .card-action .card-body {
-            display: flex;
-            align-items: center;
-            padding: 25px;
-        }
-        .card-action .icon-circle {
-            background: #f8f9fa;
+        .icon-circle {
+            background: rgba(0,0,0,0.05);
             border-radius: 50%;
             padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin-right: 20px;
         }
-        .card-action .icon-circle i {
-            font-size: 2rem;
-            color: #0d6efd;
+
+        /* COLLAPSE ICON HIDE TEXT */
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+        .sidebar.collapsed .nav-link i {
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<nav class="sidebar d-flex flex-column">
+<!-- SIDEBAR -->
+<nav class="sidebar d-flex flex-column" id="sidebar">
     <div class="sidebar-header">
-        <a href="dashboard.php" class="text-decoration-none">
-            <img src="logo.png" style="width: 220px; height:50%; padding-bottom:10px;">
-        </a>
-         <div class="d-flex align-items-center text-white text-decoration-none">
-            <i class="bi bi-person-fill-gear fs-1"></i>
-            <span class="fs-4 ms-3">ADMIN</span>
-        </div>
+        <img src="logo.png" style="width: 180px;">
     </div>
-    <ul class="nav nav-pills flex-column flex-grow-1 p-3">
-        <li class="nav-item">
-            <a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a>
-        </li>
-        <li class="nav-item">
-            <a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i> Add Guesthouse</a>
-        </li>
-        <li class="nav-item">
-            <a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i> Add Room</a>
-        </li>
-        <li class="nav-item">
-            <a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i> Manage Booking</a>
-        </li>
+    <ul class="nav nav-pills flex-column flex-grow-1 p-2">
+        <li><a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i><span> Add User</span></a></li>
+        <li><a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i><span> Add Guesthouse</span></a></li>
+        <li><a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i><span> Add Room</span></a></li>
+        <li><a href="manage_booking.php" class="nav-link"><i class="bi bi-calendar-check"></i><span> Manage Booking</span></a></li>
     </ul>
     <div class="p-3">
-        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        <a href="../logout.php" class="nav-link text-white-50"><i class="bi bi-box-arrow-right"></i><span> Logout</span></a>
     </div>
 </nav>
 
-<!-- Main content area -->
-<div class="main-content" >
-    <div class="topbar" style="background-color: #1f76ceff;">
-        <h5 class="mb-0" style="color:white;">Dashboard</h5>
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="topbar">
+        <h5>Dashboard</h5>
         <div class="d-flex align-items-center">
-                 <h6 class="mb-0 me-3" style="color:chocolate;">SARDA ENERGY and MINERALS LTD</h6>
-            <span>Welcome, Admin</span>
+            <button class="btn btn-light btn-sm me-3" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+           <?php echo htmlspecialchars($_SESSION['email']); ?>
         </div>
     </div>
 
     <div class="container-fluid">
-        <!-- <div class="welcome-card mb-4">
-            <h1 class="display-4">Welcome, Admin!</h1>
-            <p class="lead">Use the tools below to manage employees, guesthouses, and bookings.</p>
-        </div> -->
-
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <a href="add_user.php" class="text-decoration-none">
-                    <div class="card card-action h-100">
-                        <div class="card-body">
-                            <div class="icon-circle">
-                                <i class="bi bi-person-plus text-primary"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Add User</h5>
-                                <p class="text-muted mb-0">Create new user accounts.</p>
-                            </div>
+                    <div class="card card-action h-100 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle"><i class="bi bi-person-plus fs-3"></i></div>
+                            <div><h5>Add User</h5><p>Create new user accounts</p></div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="add_guesthouse.php" class="text-decoration-none">
-                    <div class="card card-action h-100">
-                        <div class="card-body">
-                            <div class="icon-circle">
-                                <i class="bi bi-building text-success"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Add Guesthouse</h5>
-                                <p class="text-muted mb-0">Add new guesthouse information.</p>
-                            </div>
+                    <div class="card card-action h-100 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle"><i class="bi bi-building fs-3"></i></div>
+                            <div><h5>Add Guesthouse</h5><p>Add new guesthouse info</p></div>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
-                <a href="add_room.php" class="text-decoration-none">
-                    <div class="card card-action h-100">
-                        <div class="card-body">
-                            <div class="icon-circle">
-                                <i class="bi bi-door-open text-warning"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Add Room</h5>
-                                <p class="text-muted mb-0">Manage rooms in guesthouses.</p>
-                            </div>
+                <a href="add_room.php            " class="text-decoration-none">
+                    <div class="card card-action h-100 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle"><i class="bi bi-door-open fs-3"></i></div>
+                            <div><h5>Add Room</h5><p>Manage rooms in guesthouses</p></div>
                         </div>
                     </div>
                 </a>
             </div>
+
             <div class="col-md-6 col-lg-4">
                 <a href="manage_booking.php" class="text-decoration-none">
-                    <div class="card card-action h-100">
-                        <div class="card-body">
-                            <div class="icon-circle">
-                                <i class="bi bi-calendar-check text-info"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Manage Bookings</h5>
-                                <p class="text-muted mb-0">View and handle all guest bookings.</p>
-                            </div>
+                    <div class="card card-action h-100 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle"><i class="bi bi-calendar-check fs-3"></i></div>
+                            <div><h5>Manage Bookings</h5><p>View and handle all bookings</p></div>
                         </div>
                     </div>
                 </a>
             </div>
+
             <div class="col-md-6 col-lg-4">
                 <a href="../logout.php" class="text-decoration-none">
-                    <div class="card card-action h-100">
-                        <div class="card-body">
-                            <div class="icon-circle">
-                                <i class="bi bi-box-arrow-right text-danger"></i>
-                            </div>
-                            <div>
-                                <h5 class="card-title mb-0">Logout</h5>
-                                <p class="text-muted mb-0">Sign out from the system.</p>
-                            </div>
+                    <div class="card card-action h-100 p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle"><i class="bi bi-box-arrow-right fs-3"></i></div>
+                            <div><h5>Logout</h5><p>Sign out from the system</p></div>
                         </div>
                     </div>
                 </a>
@@ -225,8 +188,21 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoC54FuqKaufMkyO5o6FGSh+I4q3p5KlvTXCUzwx4Pp1FBr"
-        crossorigin="anonymous"></script>
+<!-- SIDEBAR TOGGLE SCRIPT -->
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("collapsed");
+    }
+
+    // Highlight current sidebar menu based on URL
+    const links = document.querySelectorAll('.sidebar .nav-link');
+    links.forEach(link => {
+        if (link.href === window.location.href) {
+            link.classList.add('active');
+        }
+    });
+</script>
+
 </body>
 </html>
+
