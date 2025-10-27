@@ -3,23 +3,37 @@
             display: flex;
             background-color: #f0f2f5;
         }
-
+        
         /* SIDEBAR */
         .sidebar {
             width: 250px;
-            background:
-#FCF9EA;
+            background: #FCF9EA;
             color: #0a0a0a;
             flex-shrink: 0;
             transition: width 0.3s ease;
+            border-right: 1px solid #e3e6ee;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .sidebar.collapsed {
             width: 80px;
         }
         .sidebar-header {
-            padding: 20px;
+            padding: 25px 15px;
             text-align: center;
         }
+         .sidebar .user-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .sidebar .user-subtitle {
+            font-size: 12px;
+            color: #6c757d;
+        }
+       
         .sidebar .nav-link {
             color: black;
             padding: 15px 20px;
@@ -32,7 +46,7 @@
             border-left: 4px solid #ffffff;
         }
         .sidebar .nav-link:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(212, 231, 102, 0.15);
             color: #421503;
         }
         .sidebar .nav-link i {
@@ -48,9 +62,7 @@
         /* TOPBAR */
         .topbar {
             height: 70px;
-            background: 
-
-#FCF9EA;
+            background: #FCF9EA;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -89,85 +101,3 @@
         }
    
    
-   
-/*    
-   
-   body {
-            min-height: 100vh;
-            display: flex;
-            background-color: #f0f2f5;
-        }
-        .sidebar {
-            width: 250px;
-            background: #0974dfff;
-            color: #fff;
-            flex-shrink: 0;
-            transition: width 0.3s;
-        }
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #495057;
-        }
-        .sidebar .nav-link {
-            color: #adb5bd;
-            padding: 15px 20px;
-        }
-        .sidebar .nav-link.active {
-            background: #495057;
-            color: #fff;
-            border-left: 3px solid #0d6efd;
-        }
-        .sidebar .nav-link:hover {
-            background: #428bd4ff;
-            color: #fff;
-        }
-        .sidebar .nav-link i {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .topbar {
-            height: 70px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        .card-action {
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #e9ecef;
-        }
-        .card-action:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        .card-action .card-body {
-            display: flex;
-            align-items: center;
-            padding: 25px;
-        }
-        .card-action .icon-circle {
-            background: #f8f9fa;
-            border-radius: 50%;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-        }
-        .card-action .icon-circle i {
-            font-size: 2rem;
-            color: #0d6efd;
-        } */
