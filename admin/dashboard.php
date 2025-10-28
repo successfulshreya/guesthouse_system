@@ -23,11 +23,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     
       <div class="sidebar-header">
             <img src="logo.png" alt="Logo" style="width: 180px;" ><br><br>
-            <div class="user-title">Admin</div>
+                <div class="user-title" style="font-family:Georgia, 'Times New Roman', Times, serif">ADMIN</div>
             <div class="user-subtitle">Dashboard</div>
         </div>
   
     <ul class="nav nav-pills flex-column flex-grow-1 p-2">
+          <li class="nav-item"><a href="dashboard.php" class="nav-link active"><i class="bi bi-house-fill"></i> Dashboard</a></li>
         <li><a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i><span> Add User</span></a></li>
         <li><a href="add_guesthouse.php" class="nav-link"><i class="bi bi-building"></i><span> Add Guesthouse</span></a></li>
         <li><a href="add_room.php" class="nav-link"><i class="bi bi-door-open"></i><span> Add Room</span></a></li>
@@ -109,6 +110,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         </div>
     </div>
 </div>
+<div></div>
 
 <!-- SIDEBAR TOGGLE SCRIPT -->
 <script>

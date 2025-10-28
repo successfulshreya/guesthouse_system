@@ -42,8 +42,8 @@ $result = $stmt->get_result();
 <nav class="sidebar">
     <div>
         <div class="sidebar-header">
-            <img src="lo.png" alt="Logo" style="width: 150px;" height="150px;">
-            <div class="user-title">USER</div>
+          <img src="../admin/logo.png" alt="Logo" style="width: 180px;" ><br>
+            <div class="user-title" style="font-family:Georgia, 'Times New Roman', Times, serif">USER</div>
             <div class="user-subtitle">Dashboard</div>
         </div>
 
@@ -71,12 +71,6 @@ $result = $stmt->get_result();
             <i class="bi bi-person-circle fs-2 ms-2"></i>
         </div>
     </div>
-
-    <!-- <div class="container-fluid">
-        <div class="welcome-card mb-4">
-            <h1 class="display-4">Welcome, User!</h1>
-            <p class="lead">Book a room for your guests with ease.</p>
-        </div> -->
 
         <div class="avail">
             <!-- VIP Karishma -->

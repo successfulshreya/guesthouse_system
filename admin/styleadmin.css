@@ -7,7 +7,7 @@
         /* SIDEBAR */
         .sidebar {
             width: 250px;
-            background: #FCF9EA;
+            background-color: #fdeddc;
             color: #0a0a0a;
             flex-shrink: 0;
             transition: width 0.3s ease;
@@ -43,6 +43,7 @@
         }
         .sidebar .nav-link.active {
             background: rgba(255, 255, 255, 0.2);
+            color: #0a0a0a;
             border-left: 4px solid #ffffff;
         }
         .sidebar .nav-link:hover {
@@ -62,7 +63,7 @@
         /* TOPBAR */
         .topbar {
             height: 70px;
-            background: #FCF9EA;
+             background-color: #fff7ee;
             display: flex;
             align-items: center;
             justify-content: space-between;

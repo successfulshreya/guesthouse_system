@@ -155,8 +155,10 @@ if (!$result) {
 <!-- SIDEBAR -->
 <nav class="sidebar d-flex flex-column" id="sidebar">
     <div class="sidebar-header">
-        <img src="logo.png" style="width: 180px;">
-    </div>
+            <img src="logo.png" alt="Logo" style="width: 180px;" ><br><br>
+                <div class="user-title" style="font-family:Georgia, 'Times New Roman', Times, serif">ADMIN</div>
+            <div class="user-subtitle">Dashboard</div>
+        </div>
     <ul class="nav nav-pills flex-column flex-grow-1 p-2">
         <li><a href="dashboard.php" class="nav-link"><i class="bi bi-house-fill"></i> Dashboard</a></li>
         <li><a href="add_user.php" class="nav-link"><i class="bi bi-person-plus"></i> Add User</a></li>
