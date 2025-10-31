@@ -39,7 +39,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'cancel' && isset($_GET['id'])
         $msg = "Booking cancelled successfully.";
 
         // ✅ send cancellation mail
-        $admin_email = "shreyasahuu01@gmail.com";
+        $admin_email = "shreyaseml01@gmail.com";
         $subject = "Booking Cancelled by User";
         $body = "User <b>{$user_id}</b> has cancelled their booking (Booking ID: {$id}). Please review.";
         sendMail($admin_email, $subject, $body);
@@ -53,7 +53,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'cancel' && isset($_GET['id'])
         $msg = "Booking cancelled successfully (room already deleted).";
 
         // ✅ send mail in this case also
-        $admin_email = "shreyasahuu01@gmail.com";
+        $admin_email = "shreyaseml01@gmail.com";
         $subject = "Booking Cancelled by User";
         $body = "User <b>{$user_id}</b> cancelled a booking (ID: {$id}) but room was already deleted.";
         sendMail($admin_email, $subject, $body);

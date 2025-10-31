@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
 
                 // ✅ abhi yaha mail bhejna hai
-                $admin_email = "shreyasahuu01@gmail.com";
+                $admin_email = "shreyaseml01@gmail.com";
                 $subject = "New Room Booking Request";
                 $body = "<h3>New Room Booking Request</h3>
                          <p>User <b>{$user_id}</b> has made a new booking request for room <b>{$room_id}</b>.</p>

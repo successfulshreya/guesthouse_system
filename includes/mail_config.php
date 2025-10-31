@@ -12,12 +12,12 @@ function sendMail($to, $subject, $body) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
-        $mail->Username = 'shreyasahuu01@gmail.com';   //full gmail
-        $mail->Password = 'euzuomktkgxhysod';         //app password
+        $mail->Username = 'shreyaseml01@gmail.com';   //full gmail {admin mail daalna hai yaha }
+        $mail->Password = 'daioupcmrkceheta';         //app password 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('shreyasahuu01@gmail.com', 'Guest House System'); //fixed
+        $mail->setFrom('shreyaseml01@gmail.com', 'Guest House System'); 
         $mail->addAddress($to);
 
         $mail->isHTML(true);
